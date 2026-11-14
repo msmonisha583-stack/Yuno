@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateOrder, calculateSummary, getOrderStatus } from './reconciliation';
+import { calculateOrder, calculateProcessorMetrics, calculateSummary, getOrderStatus, validateOrder } from './reconciliation';
 import type { Transaction } from '../types/payment';
 
 const base: Transaction = {
@@ -27,17 +27,25 @@ describe('reconciliation engine', () => {
     expect(getOrderStatus(order)).toBe('failed');
   });
 
-  it('classifies a mix of successful and failed legs as partial failure', () => {
+  it('classifies mixed success and failure as partial failure', () => {
     const order = { ...base, legs: base.legs.map((leg, index) => ({ ...leg, status: index ? 'failed' as const : 'settled' as const })) };
     expect(getOrderStatus(order)).toBe('partial_failure');
   });
 
   it('deducts refunds from retained collections and settled net settlement', () => {
-    const order = { ...base, legs: [{ ...base.legs[0], refundedAmount: 1000 }, base.legs[1]] };
+    const order = { ...base, legs: [{ ...base.legs[0], refundedAmount: 1000, status: 'refunded' as const }, base.legs[1]] };
     const result = calculateOrder(order);
     expect(result.refunds).toBe(1000);
     expect(result.retainedCollected).toBe(9000);
     expect(result.netSettlement).toBe(4880);
+  });
+
+  it('marks fully refunded collections as refunded, including orders with pending legs', () => {
+    const order = { ...base, legs: [
+      { ...base.legs[0], status: 'refunded' as const, refundedAmount: 6000 },
+      { ...base.legs[1], status: 'pending' as const, refundedAmount: 0 },
+    ] };
+    expect(getOrderStatus(order)).toBe('refunded');
   });
 
   it('keeps summary totals separated by currency', () => {
@@ -45,8 +53,36 @@ describe('reconciliation engine', () => {
     expect(calculateSummary([base, ghana]).map((item) => item.currency).sort()).toEqual(['GHS', 'NGN']);
   });
 
-  it('does not count a failed leg as outstanding', () => {
+  it('does not count failed legs as outstanding', () => {
     const order = { ...base, legs: [{ ...base.legs[0], status: 'failed' as const }, { ...base.legs[1], status: 'authorized' as const }] };
     expect(calculateOrder(order).outstandingAmount).toBe(4000);
+  });
+
+  it('validates that tender legs reconcile exactly to order gross', () => {
+    expect(validateOrder(base)).toEqual([]);
+    const invalid = { ...base, legs: base.legs.map((leg, index) => index ? { ...leg, amount: 3900 } : leg) };
+    expect(validateOrder(invalid)).toContain('Payment leg amounts do not add up to the order gross amount.');
+  });
+
+  it('rejects negative refunds, currency mismatches and invalid fee rates', () => {
+    const invalid = { ...base, legs: [{ ...base.legs[0], refundedAmount: -1, feeRate: 1.5 }, { ...base.legs[1], currency: 'KES' as const }] };
+    const errors = validateOrder(invalid);
+    expect(errors.some((error) => error.includes('refund amount'))).toBe(true);
+    expect(errors.some((error) => error.includes('fee rate'))).toBe(true);
+    expect(errors.some((error) => error.includes('currency'))).toBe(true);
+  });
+
+  it('calculates failure rates from failed legs over total legs, not failed orders', () => {
+    const metrics = calculateProcessorMetrics([base]);
+    expect(metrics.find((item) => item.processor === 'Paystack')?.failureRate).toBe(0);
+    const failedOrder = { ...base, legs: base.legs.map((leg) => ({ ...leg, status: 'failed' as const })) };
+    expect(calculateProcessorMetrics([failedOrder]).every((item) => item.failureRate === 1)).toBe(true);
+  });
+
+  it('does not return NaN when invalid numeric inputs reach calculations', () => {
+    const invalid = { ...base, legs: [{ ...base.legs[0], amount: Number.NaN, feeRate: Number.NaN }] };
+    const result = calculateOrder(invalid);
+    expect(Number.isFinite(result.collectedAmount)).toBe(true);
+    expect(Number.isFinite(result.netSettlement)).toBe(true);
   });
 });
