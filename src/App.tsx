@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, Check, ChevronDown, CircleAlert, Coffee, Download, Filter, LayoutDashboard, Search, Wallet, X } from 'lucide-react';
+import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, CircleAlert, Coffee, Download, Filter, LayoutDashboard, Search, Wallet, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { mockTransactions } from './data/mockTransactions';
 import { calculateOrder, calculateSummary, formatMoney } from './utils/reconciliation';
@@ -91,8 +91,8 @@ function App() {
           <div className="panel-heading"><div><h3>Payment transactions</h3><p>Explore orders and their individual tender legs.</p></div><span className="result-count">{filtered.length} orders</span></div>
           <div className="filters">
             <div className="search-box"><Search size={16} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search order ID or customer..." /></div>
-            <label className="filter-control"><Filter size={15} /><select value={country} onChange={(event) => setCountry(event.target.value)}><option>All countries</option><option>Nigeria</option><option>Ghana</option><option>Kenya</option></select><ChevronDown size={13} /></label>
-            <label className="filter-control"><select value={status} onChange={(event) => setStatus(event.target.value)}><option>All statuses</option><option value="complete">Complete</option><option value="partial_failure">Partial failure</option><option value="processing">Processing</option><option value="pending">Pending</option><option value="refunded">Refunded</option><option value="failed">Failed</option></select><ChevronDown size={13} /></label>
+            <label className="filter-control"><Filter size={15} /><select value={country} onChange={(event) => setCountry(event.target.value)}><option>All countries</option><option>Nigeria</option><option>Ghana</option><option>Kenya</option></select></label>
+            <label className="filter-control"><select value={status} onChange={(event) => setStatus(event.target.value)}><option>All statuses</option><option value="complete">Complete</option><option value="partial_failure">Partial failure</option><option value="processing">Processing</option><option value="pending">Pending</option><option value="refunded">Refunded</option><option value="failed">Failed</option></select></label>
             <button className="clear-button" onClick={() => { setSearch(''); setCountry('All countries'); setStatus('All statuses'); }}>Clear</button>
           </div>
           <div className="table-wrap"><table><thead><tr><th>ORDER</th><th>DATE</th><th>LOCATION</th><th>PAYMENT LEGS</th><th>GROSS AMOUNT</th><th>COLLECTED</th><th>NET SETTLEMENT</th><th>STATUS</th></tr></thead>
