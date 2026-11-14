@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Activity, ArrowDownRight, ArrowUpRight, CalendarDays, CircleAlert, Coffee, Download, Filter, LayoutDashboard, Search, Wallet, X, BarChart3, FileSpreadsheet, RotateCcw } from 'lucide-react';
+import { Activity, ArrowDownRight, CalendarDays, CircleAlert, Coffee, Download, LayoutDashboard, Search, Wallet, X, BarChart3, FileSpreadsheet, RotateCcw } from 'lucide-react';
 import { format, parseISO, startOfDay, endOfDay } from 'date-fns';
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { mockTransactions } from './data/mockTransactions';
