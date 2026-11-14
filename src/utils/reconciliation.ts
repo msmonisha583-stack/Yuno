@@ -33,8 +33,8 @@ export function getOrderStatus(order: Transaction): OrderStatus {
   const refunds = sum(legs.map((leg) => Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount))));
   if (collected > 0 && refunds >= collected - 0.01) return 'refunded';
   if (legs.some((leg) => leg.status === 'failed')) return 'partial_failure';
-  if (legs.every(isSettled)) return 'complete';
-  if (legs.some(isCollected)) return 'processing';
+  if (legs.every((leg) => isSettled(leg.status))) return 'complete';
+  if (legs.some((leg) => isCollected(leg.status))) return 'processing';
   return 'pending';
 }
 
@@ -46,7 +46,7 @@ export function calculateOrder(order: Transaction): OrderCalculation {
   const capturedAmount = sum(legs.filter((leg) => leg.status === 'captured').map((leg) => amountOf(leg.amount)));
   const settledLegs = legs.filter((leg) => isSettled(leg.status));
   const settledGross = sum(settledLegs.map((leg) => amountOf(leg.amount)));
-  const estimatedFees = sum(legs.filter(isCollected).map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
+  const estimatedFees = sum(legs.filter((leg) => isCollected(leg.status)).map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
   const settledFees = sum(settledLegs.map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
   const refunds = sum(legs.map((leg) => Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount))));
   const settledRefunds = sum(settledLegs.map((leg) => Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount))));
