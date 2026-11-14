@@ -86,3 +86,65 @@ describe('reconciliation engine', () => {
     expect(Number.isFinite(result.netSettlement)).toBe(true);
   });
 });
+
+import { mockTransactions } from '../data/mockTransactions';
+
+describe('assessment demo dataset', () => {
+  it('contains 200 orders with a 65% split-payment share', () => {
+    expect(mockTransactions).toHaveLength(200);
+    const splitOrders = mockTransactions.filter((order) => order.legs.length > 1);
+    expect(splitOrders).toHaveLength(130);
+    expect(splitOrders.length / mockTransactions.length).toBe(0.65);
+  });
+
+  it('covers all required countries, currencies and payment methods', () => {
+    expect(new Set(mockTransactions.map((order) => order.country))).toEqual(new Set(['Nigeria', 'Ghana', 'Kenya']));
+    expect(new Set(mockTransactions.map((order) => order.currency))).toEqual(new Set(['NGN', 'GHS', 'KES']));
+    const methods = new Set(mockTransactions.flatMap((order) => order.legs.map((leg) => leg.method)));
+    expect(methods).toEqual(new Set(['Visa', 'Mastercard', 'MTN Mobile Money', 'Airtel Money', 'M-Pesa', 'Bank Transfer']));
+  });
+
+  it('contains at least 15 split orders with both failed and successful legs', () => {
+    const partialFailures = mockTransactions.filter((order) =>
+      order.legs.length > 1 &&
+      order.legs.some((leg) => leg.status === 'failed') &&
+      order.legs.some((leg) => leg.status === 'settled' || leg.status === 'captured' || leg.status === 'refunded'),
+    );
+    expect(partialFailures.length).toBeGreaterThanOrEqual(15);
+  });
+
+  it('keeps every order leg allocation equal to its order gross', () => {
+    mockTransactions.forEach((order) => {
+      expect(order.legs.reduce((total, leg) => total + leg.amount, 0)).toBe(order.grossAmount);
+      expect(validateOrder(order)).toEqual([]);
+    });
+  });
+
+  it('assigns realistic method-specific fees and settlement delays of zero to five days', () => {
+    const expectedRates: Record<string, number> = {
+      Visa: 0.022, Mastercard: 0.02, 'MTN Mobile Money': 0.012,
+      'Airtel Money': 0.015, 'M-Pesa': 0.013, 'Bank Transfer': 0.008,
+    };
+    mockTransactions.flatMap((order) => order.legs).forEach((leg) => {
+      expect(leg.feeRate).toBe(expectedRates[leg.method]);
+      if (leg.status === 'settled' || leg.status === 'refunded') {
+        expect(leg.settlementDate).not.toBeNull();
+        const days = (new Date(leg.settlementDate!).getTime() - new Date(leg.createdAt).getTime()) / 86400000;
+        expect(days).toBeGreaterThanOrEqual(0);
+        expect(days).toBeLessThanOrEqual(5);
+      } else {
+        expect(leg.settlementDate).toBeNull();
+      }
+    });
+  });
+
+  it('includes pending, authorized, captured, failed, settled and refunded legs', () => {
+    const states = new Set(mockTransactions.flatMap((order) => order.legs.map((leg) => leg.status)));
+    expect(states).toEqual(new Set(['pending', 'authorized', 'captured', 'failed', 'settled', 'refunded']));
+  });
+
+  it('keeps the mock dataset deterministic across repeated imports', () => {
+    expect(mockTransactions[0].id).toBe('CH-026000');
+    expect(mockTransactions[199].id).toBe('CH-026199');
+  });
+});
