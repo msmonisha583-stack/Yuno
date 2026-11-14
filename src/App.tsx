@@ -48,11 +48,12 @@ function App() {
     const to = toDate ? endOfDay(new Date(`${toDate}T00:00:00`)).getTime() : Infinity;
     return (!term || order.id.toLowerCase().includes(term) || order.customer.toLowerCase().includes(term))
       && (country === 'All countries' || order.country === country)
+      && order.currency === currency
       && (status === 'All statuses' || calc.status === status)
       && timestamp >= from && timestamp <= to;
   }), [search, country, status, fromDate, toDate]);
 
-  const currencyOrders = filtered.filter((order) => order.currency === currency);
+  const currencyOrders = filtered;
   const summary = calculateSummary(currencyOrders)[0];
   const processorMetrics = calculateProcessorMetrics(currencyOrders);
   const validationIssues = currencyOrders.reduce((count, order) => count + validateOrder(order).length, 0);
