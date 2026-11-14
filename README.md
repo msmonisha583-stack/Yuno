@@ -121,6 +121,15 @@ The application uses a small, layered front-end architecture:
 
 The app is intentionally client-side and uses generated fixtures: this keeps the assessment easy to install and demo without API keys, payment credentials, a database or external services.
 
+## Visual mockup preview
+
+A standalone, interactive HTML mockup is included so reviewers can see the intended CaféHub dashboard layout without installing the React application:
+
+- **[Open the interactive HTML preview](https://htmlpreview.github.io/?https://raw.githubusercontent.com/msmonisha583-stack/Yuno/main/preview.html)** — opens the mock dashboard in a browser.
+- **[View the preview HTML source](./preview.html)** — standalone HTML, CSS and JavaScript in this repository.
+
+The mockup includes a sidebar, overview KPIs, sample transaction table, status chips for split-payment legs, filter controls, settlement snapshot, analytics/report views and a clickable transaction detail drawer. It is a visual demonstration only: its small sample dataset and displayed amounts are illustrative and are not connected to the React app's 200-order dataset or reconciliation engine. For functional calculations, complete filtering and CSV export, run the actual application using the instructions above.
+
 ## Two-minute demo script
 
 1. Start the app with `npm run dev` and open the Vite URL.
