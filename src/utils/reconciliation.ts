@@ -44,7 +44,7 @@ export function calculateOrder(order: Transaction): OrderCalculation {
   const pendingAmount = sum(legs.filter((leg) => leg.status === 'pending' || leg.status === 'authorized').map((leg) => amountOf(leg.amount)));
   const failedAmount = sum(legs.filter((leg) => leg.status === 'failed').map((leg) => amountOf(leg.amount)));
   const capturedAmount = sum(legs.filter((leg) => leg.status === 'captured').map((leg) => amountOf(leg.amount)));
-  const settledLegs = legs.filter(isSettled);
+  const settledLegs = legs.filter((leg) => isSettled(leg.status));
   const settledGross = sum(settledLegs.map((leg) => amountOf(leg.amount)));
   const estimatedFees = sum(legs.filter(isCollected).map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
   const settledFees = sum(settledLegs.map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
