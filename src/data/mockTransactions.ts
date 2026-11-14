@@ -16,7 +16,7 @@ const processors: Record<PaymentMethod, string> = {
   'Airtel Money': 'Airtel Money', 'M-Pesa': 'Safaricom', 'Bank Transfer': 'Interswitch',
 };
 const customers = ['Amara Okafor', 'Kwame Mensah', 'Wanjiku Njoroge', 'Tunde Adeyemi', 'Ama Boateng', 'Akinyi Otieno', 'Chidi Eze', 'Kofi Asante', 'Nia Kamau', 'Zainab Bello'];
-const statuses: PaymentStatus[] = ['settled', 'settled', 'settled', 'captured', 'pending', 'authorized', 'failed'];
+const statuses: PaymentStatus[] = ['settled', 'settled', 'settled', 'settled', 'settled', 'settled', 'settled', 'captured', 'pending', 'authorized', 'failed'];
 const round = (value: number) => Math.round(value);
 
 function makeLeg(orderIndex: number, legIndex: number, amount: number, currency: Currency, country: Country): PaymentLeg {
