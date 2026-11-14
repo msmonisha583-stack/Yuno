@@ -138,6 +138,12 @@ describe('assessment demo dataset', () => {
     });
   });
 
+  it('keeps the majority of payment legs settled while retaining exception states', () => {
+    const legs = mockTransactions.flatMap((order) => order.legs);
+    const settledShare = legs.filter((leg) => leg.status === 'settled').length / legs.length;
+    expect(settledShare).toBeGreaterThan(0.5);
+  });
+
   it('includes pending, authorized, captured, failed, settled and refunded legs', () => {
     const states = new Set(mockTransactions.flatMap((order) => order.legs.map((leg) => leg.status)));
     expect(states).toEqual(new Set(['pending', 'authorized', 'captured', 'failed', 'settled', 'refunded']));
