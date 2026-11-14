@@ -101,6 +101,35 @@ src/
   main.tsx                   React application entry point
 ```
 
+## Architecture overview
+
+The application uses a small, layered front-end architecture:
+
+- **Presentation — `src/App.tsx`:** React components and view state for the dashboard, filters, transaction list, order-detail drawer, analytics and settlement report export.
+- **Domain model — `src/types/payment.ts`:** shared TypeScript types for orders, payment legs, currencies, payment states and reconciliation results. Keeping the model explicit makes the rules easier to inspect and test.
+- **Mock data — `src/data/mockTransactions.ts`:** deterministic generated orders and payment legs. Deterministic fixtures make assessment demos repeatable and allow tests to assert exact dataset properties.
+- **Reconciliation domain logic — `src/utils/reconciliation.ts`:** pure functions for validation, order status, leg-level financial calculations, currency-separated summaries and processor/method metrics. Keeping calculations outside the UI makes the financial rules independently testable.
+- **Automated verification — `src/utils/reconciliation.test.ts`:** Vitest unit tests for financial edge cases and dataset requirements; GitHub Actions runs tests and a production build on pushes and pull requests.
+
+### Why this stack
+
+- **React** provides a component model for interactive transaction tables, filters and detail views.
+- **TypeScript** makes payment states, currencies and transaction structures explicit, reducing accidental mixing of currencies or statuses.
+- **Vite** provides a quick local development server and a straightforward production build.
+- **Recharts** provides compact trend and failure-rate charts without building chart primitives from scratch.
+- **Vitest** runs the pure reconciliation and dataset tests quickly and integrates with the Vite/TypeScript toolchain.
+
+The app is intentionally client-side and uses generated fixtures: this keeps the assessment easy to install and demo without API keys, payment credentials, a database or external services.
+
+## Two-minute demo script
+
+1. Start the app with `npm run dev` and open the Vite URL.
+2. On **Overview**, point out the 200 orders and use the currency, country and date filters to narrow the list.
+3. Choose **Exceptions** to show orders with a failed tender leg alongside a successful leg.
+4. Open one exception row. Explain that each tender leg has its own method, processor, state, fee rate and amount, while the order status summarizes the combined result.
+5. In the detail drawer, compare collected, pending, failed and captured amounts with settled gross, settled fees, refunds and net settlement.
+6. Open **Settlement reports** to show processor/method breakdowns and export the CSV. Finish on **Analytics** to show daily gross-versus-net trends and failed-leg rates.
+
 ## Five-minute demo walkthrough
 
 1. Run `npm install` and `npm run dev`, then open the Vite URL.
