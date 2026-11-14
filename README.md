@@ -22,8 +22,8 @@ The app generates **200 deterministic mock orders** in `src/data/mockTransaction
 | Countries and currencies | Nigeria (NGN), Ghana (GHS), Kenya (KES) |
 | Split vs single tender | 65% split orders; 35% single-tender orders |
 | Payment methods | Visa, Mastercard, MTN Mobile Money, Airtel Money, M-Pesa, Bank Transfer |
-| Payment states | Settled, captured, pending, authorized, failed and refunded |
-| Partial failures | 18 seeded split orders with a failed leg alongside a successful leg |
+| Payment states | Majority settled, with captured, pending, authorized, failed and refunded exceptions |
+| Partial failures | 41 split orders with a failed leg alongside a successful leg |
 | Settlement timing | Settlement timestamps are generated from 0–5 days after order creation for settled/refunded legs |
 | Fee assumptions | Cards: 2.0–2.2%; mobile money: 1.2–1.5%; bank transfer: 0.8% |
 | Refunds | A deterministic sample of orders includes partial refunds |
