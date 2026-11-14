@@ -4,7 +4,8 @@ const amountOf = (value: number) => Number.isFinite(value) ? Math.max(0, value) 
 const isCollected = (status: PaymentLeg['status']) =>
   status === 'captured' || status === 'settled' || status === 'refunded';
 const isSettled = (status: PaymentLeg['status']) => status === 'settled' || status === 'refunded';
-const sum = (values: number[]) => values.reduce((total, value) => total + value, 0);\nconst rateOf = (value: number) => Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : 0;
+const sum = (values: number[]) => values.reduce((total, value) => total + value, 0);
+const rateOf = (value: number) => Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : 0;
 
 export function validateOrder(order: Transaction): string[] {
   const errors: string[] = [];
