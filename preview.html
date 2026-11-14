@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CaféHub — Finance Console Preview</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#1b2925;background:#f5f7f5;font-synthesis:none;text-rendering:optimizeLegibility}*{box-sizing:border-box}body{margin:0;min-width:320px}button,input,select{font:inherit}.shell{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:232px;background:#14231f;color:#d8e2dd;padding:25px 16px;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:11px;padding:0 9px 42px}.mark{width:37px;height:37px;border-radius:12px;background:#c9f36a;color:#20321c;display:grid;place-items:center;font-size:20px}.brand strong{display:block;color:white;font-size:16px}.brand small{display:block;color:#8fa39a;font-size:9px;letter-spacing:1.4px;margin-top:3px}.label{font-size:10px;font-weight:750;letter-spacing:1.35px;color:#8da198;padding:0 12px 12px}.nav{display:grid;gap:5px}.nav button{border:0;background:none;color:#aebeb6;text-align:left;padding:11px 12px;border-radius:9px;font-size:13px;cursor:pointer}.nav button.active{background:#263b33;color:#d4f58c}.count{float:right;background:#31463d;border-radius:20px;padding:3px 7px;font-size:10px}.bottom{margin-top:auto;padding:14px 10px 0;border-top:1px solid #2b3b35;color:#9eafa6;font-size:11px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#a9df61;margin-right:8px}.main{margin-left:232px;padding:0 36px 20px;max-width:1700px}.top{height:88px;border-bottom:1px solid #e7ece8;display:flex;align-items:center;justify-content:space-between}.eyebrow{font-size:9px;letter-spacing:1.3px;color:#82938a;font-weight:750}.top h1{font-size:23px;margin:5px 0 0;letter-spacing:-.7px}.avatar{width:34px;height:34px;border-radius:50%;background:#e3edda;color:#426037;display:grid;place-items:center;font-size:11px;font-weight:750}.intro{display:flex;justify-content:space-between;align-items:center;padding:27px 0 20px}.intro h2{font-size:19px;margin:0 0 6px}.intro p,.sub{font-size:12px;color:#87958e;margin:0}.button{background:#203b30;color:#eff9e9;border:0;border-radius:8px;padding:10px 14px;font-size:11px;font-weight:650;cursor:pointer}.filters{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.search{height:35px;min-width:220px;flex:1;border:1px solid #e7ece8;border-radius:7px;padding:0 11px;background:white;font-size:11px}.filters select{height:35px;border:1px solid #e7ece8;border-radius:7px;padding:0 10px;background:#fff;color:#46594e;font-size:11px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:19px}.card{background:#fff;border:1px solid #e8ede9;border-radius:11px;box-shadow:0 2px 5px #18251f05}.kpi{padding:16px}.kpi-label{font-size:11px;color:#78877f;font-weight:600}.value{display:block;font-size:22px;letter-spacing:-.8px;margin:12px 0 8px}.hint{font-size:9px;color:#9aa69f}.content{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(250px,.8fr);gap:14px}.panel-head{padding:18px 19px 13px;display:flex;justify-content:space-between;align-items:center}.panel-head h3{margin:0 0 4px;font-size:14px}.panel-head p{margin:0;color:#87958e;font-size:10px}.pill{font-size:9px;padding:5px 8px;border-radius:20px;background:#f1f5ee;color:#69834f}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;white-space:nowrap}thead{background:#f8faf8}th{padding:11px 12px;color:#98a49d;font-size:8px;letter-spacing:.8px}td{padding:12px;border-top:1px solid #eff2ef;font-size:10px;color:#6d7d74}td strong{color:#34473d;font-weight:650}.id{color:#3d6047!important}.muted{display:block;color:#9aa69f;font-size:9px;margin-top:3px}.badge{display:inline-block;border-radius:20px;padding:5px 8px;font-size:9px;font-weight:650;background:#eff5e9;color:#628348}.partial,.failed{background:#fff0ed;color:#b65e52}.pending,.processing{background:#fff5e8;color:#a8793c}.legs{display:flex;gap:4px}.leg{width:19px;height:19px;border-radius:6px;display:grid;place-items:center;background:#edf5e7;color:#668b4d;font-size:9px;font-weight:750}.leg.bad{background:#fff0ed;color:#bd6558}.leg.wait{background:#fff5e8;color:#b17a39}.right{padding:0 18px 18px}.right .metric{padding:12px 0;border-bottom:1px solid #eff2ef;display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#829087}.right .metric strong{color:#3b4e43}.bar-row{margin:14px 0}.bar-title{display:flex;justify-content:space-between;font-size:10px;color:#65766e;margin-bottom:6px}.bar{height:7px;background:#edf1ed;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:#9ac65e;border-radius:10px}.note{padding:12px 14px;background:#f5f8f1;border-radius:8px;color:#718168;font-size:10px;line-height:1.5;margin-top:15px}.footer{display:flex;justify-content:space-between;color:#9aa69f;font-size:9px;padding:17px 2px}.overlay{position:fixed;inset:0;background:#14231f66;display:none;justify-content:flex-end}.overlay.show{display:flex}.drawer{background:#fff;width:min(430px,100%);height:100%;padding:24px;overflow:auto;box-shadow:-10px 0 35px #10201820}.drawer-head{display:flex;justify-content:space-between;border-bottom:1px solid #edf0ed;padding-bottom:17px}.drawer h2{font-size:20px;margin:5px 0}.close{border:1px solid #e8ede9;background:#fff;border-radius:8px;width:32px;height:32px;cursor:pointer}.drawer-total{margin:18px 0;background:#f6f8f5;padding:15px;border-radius:9px}.drawer-total small{display:block;color:#89978f;font-size:10px}.drawer-total strong{display:block;font-size:23px;margin-top:7px}.legrow{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid #eff2ef;font-size:10px}.legrow span{color:#89978f}.drawer h3{font-size:12px;margin:23px 0 8px}.disclaimer{margin:0 0 15px;padding:9px 12px;background:#fff8e9;border:1px solid #f4e8c8;border-radius:8px;color:#8a7547;font-size:10px;line-height:1.5}
+@media(max-width:1050px){.main{padding:0 20px}.kpis{grid-template-columns:repeat(2,1fr)}.content{grid-template-columns:1fr}}@media(max-width:700px){.sidebar{position:static;width:auto;padding:13px 16px}.brand{padding:0}.label,.nav,.bottom{display:none}.main{margin:0;padding:0 13px}.top{height:72px}.intro{align-items:flex-start;gap:10px}.intro h2{font-size:16px}.kpis{gap:8px}.kpi{padding:12px}.value{font-size:18px}.filters select{flex:1}.search{min-width:100%}.footer{flex-direction:column;gap:7px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+ <div class="brand"><div class="mark">☕</div><div><strong>CaféHub</strong><small>FINANCE CONSOLE</small></div></div>
+ <div class="label">WORKSPACE</div>
+ <nav class="nav">
+  <button class="active" data-view="overview">▦ &nbsp; Overview</button>
+  <button data-view="transactions">◷ &nbsp; Transactions <span class="count">200</span></button>
+  <button data-view="exceptions">⚠ &nbsp; Exceptions <span class="count">41</span></button>
+  <button data-view="analytics">▥ &nbsp; Analytics</button>
+  <button data-view="settlements">▤ &nbsp; Settlement reports</button>
+ </nav>
+ <div class="bottom"><span class="dot"></span> Mock environment <span style="float:right">v1.0</span></div>
+</aside>
+<main class="main">
+ <header class="top"><div><div class="eyebrow">CAFEHUB / FINANCE</div><h1 id="pageTitle">Overview</h1></div><div class="avatar">FM</div></header>
+ <section class="intro"><div><h2>Good morning, Finance team <span style="color:#9bc94c">✳</span></h2><p>Here’s what’s happening across your payment operations.</p></div><button class="button" id="export">⇩ &nbsp; Export report</button></section>
+ <div class="disclaimer"><strong>Interactive visual mockup:</strong> illustrative sample rows and figures, not live data. The React application uses the generated 200-order dataset and its reconciliation engine.</div>
+ <section class="filters">
+  <input class="search" id="search" placeholder="⌕  Search order ID or customer…">
+  <select id="country"><option value="">All countries</option><option>Nigeria</option><option>Ghana</option><option>Kenya</option></select>
+  <select id="currency"><option value="">All currencies</option><option>NGN</option><option>GHS</option><option>KES</option></select>
+  <select id="status"><option value="">All statuses</option><option>Complete</option><option>Partial failure</option><option>Processing</option><option>Pending</option><option>Failed</option></select>
+ </section>
+ <section class="kpis">
+  <div class="card kpi"><div class="kpi-label">Gross sales</div><strong class="value" id="gross">₦ 8,420,500</strong><div class="hint">Across selected period</div></div>
+  <div class="card kpi"><div class="kpi-label">Net settlement</div><strong class="value" id="net">₦ 6,914,280</strong><div class="hint">Settled gross less fees & refunds</div></div>
+  <div class="card kpi"><div class="kpi-label">Pending payments</div><strong class="value">₦ 482,000</strong><div class="hint">Pending and authorized legs</div></div>
+  <div class="card kpi"><div class="kpi-label">Failed payments</div><strong class="value">₦ 196,500</strong><div class="hint">Failed tender legs only</div></div>
+ </section>
+ <section class="content" id="overviewContent">
+  <div class="card">
+   <div class="panel-head"><div><h3>Recent transactions</h3><p>Split and single-tender order activity</p></div><span class="pill" id="resultCount">6 sample orders</span></div>
+   <div class="table-wrap"><table><thead><tr><th>ORDER</th><th>CUSTOMER</th><th>COUNTRY</th><th>PAYMENT LEGS</th><th>GROSS AMOUNT</th><th>STATUS</th></tr></thead><tbody id="rows"></tbody></table></div>
+   <div class="panel-head" style="border-top:1px solid #eff2ef"><p>Showing illustrative sample transactions</p><span class="muted">Click a row for details ↗</span></div>
+  </div>
+  <div class="card"><div class="panel-head"><div><h3>Settlement snapshot</h3><p>Current selected currency</p></div><span class="pill">Illustrative</span></div><div class="right">
+   <div class="metric"><span>Settled gross</span><strong>₦ 7,108,000</strong></div><div class="metric"><span>Settled fees</span><strong>− ₦ 143,720</strong></div><div class="metric"><span>Refunds</span><strong>− ₦ 50,000</strong></div><div class="metric"><span>Net settlement</span><strong>₦ 6,914,280</strong></div>
+   <div class="bar-row"><div class="bar-title"><span>Visa / Mastercard</span><b>2.1% avg fee</b></div><div class="bar"><i style="width:86%"></i></div></div>
+   <div class="bar-row"><div class="bar-title"><span>Mobile money</span><b>1.3% avg fee</b></div><div class="bar"><i style="width:55%"></i></div></div>
+   <div class="bar-row"><div class="bar-title"><span>Bank transfer</span><b>0.8% fee</b></div><div class="bar"><i style="width:34%"></i></div></div>
+   <div class="note">Captured funds are counted as collected, but are not included in settled bank proceeds until settlement is confirmed.</div>
+  </div></div>
+ </section>
+ <section class="card" id="alternate" style="display:none;margin-top:14px"><div class="panel-head"><div><h3 id="altTitle">Analytics</h3><p id="altDesc">Illustrative trends and settlement metrics</p></div><span class="pill">Sample preview</span></div><div class="right" id="altBody"></div></section>
+ <footer class="footer"><span>© 2026 CaféHub Finance Console · Demo environment</span><span>All amounts and transactions are illustrative</span></footer>
+</main>
+</div>
+<div class="overlay" id="overlay"><aside class="drawer"><div class="drawer-head"><div><div class="eyebrow">TRANSACTION DETAIL</div><h2 id="drawerId">CH-026041</h2></div><button class="close" id="close">✕</button></div><div class="drawer-total"><small>Order gross amount</small><strong id="drawerGross">₦ 48,500</strong></div><div class="muted" id="drawerCustomer">Amara Okafor · Lagos, Nigeria</div><h3>Payment legs</h3><div id="drawerLegs"></div><h3>Reconciliation summary</h3><div id="drawerSummary"></div><div class="note">Illustrative detail only. The live app calculates these values from the typed transaction model.</div></aside></div>
+<script>
+const sample=[
+{id:"CH-026041",customer:"Amara Okafor",country:"Nigeria",currency:"NGN",gross:48500,status:"Partial failure",legs:[["Visa","Settled",30000],["MTN Mobile Money","Failed",18500]],date:"14 Nov 2026"},
+{id:"CH-026052",customer:"Kwame Mensah",country:"Ghana",currency:"GHS",gross:620,status:"Complete",legs:[["Mastercard","Settled",400],["MTN Mobile Money","Settled",220]],date:"14 Nov 2026"},
+{id:"CH-026067",customer:"Wanjiku Njeri",country:"Kenya",currency:"KES",gross:7850,status:"Processing",legs:[["M-Pesa","Captured",5000],["Visa","Authorized",2850]],date:"13 Nov 2026"},
+{id:"CH-026079",customer:"Chinedu Obi",country:"Nigeria",currency:"NGN",gross:32500,status:"Complete",legs:[["Airtel Money","Settled",12500],["Bank Transfer","Settled",20000]],date:"13 Nov 2026"},
+{id:"CH-026084",customer:"Ama Boateng",country:"Ghana",currency:"GHS",gross:410,status:"Failed",legs:[["Visa","Failed",250],["MTN Mobile Money","Failed",160]],date:"12 Nov 2026"},
+{id:"CH-026091",customer:"Achieng Otieno",country:"Kenya",currency:"KES",gross:12600,status:"Pending",legs:[["M-Pesa","Pending",7600],["Mastercard","Settled",5000]],date:"12 Nov 2026"}
+];
+const symbols={NGN:"₦",GHS:"GH₵",KES:"KSh"};
+const money=(n,c)=>symbols[c]+" "+Number(n).toLocaleString("en-US");
+const rows=document.getElementById("rows");
+function render(){
+ const term=document.getElementById("search").value.toLowerCase(),country=document.getElementById("country").value,currency=document.getElementById("currency").value,status=document.getElementById("status").value;
+ const filtered=sample.filter(o=>(!term||o.id.toLowerCase().includes(term)||o.customer.toLowerCase().includes(term))&&(!country||o.country===country)&&(!currency||o.currency===currency)&&(!status||o.status===status));
+ rows.innerHTML=filtered.map(o=>'<tr data-id="'+o.id+'" style="cursor:pointer"><td><strong class="id">'+o.id+'</strong><small>'+o.date+'</small></td><td><strong>'+o.customer+'</strong><small>'+o.country+'</small></td><td>'+o.country+'</td><td><div class="legs">'+o.legs.map(l=>'<span class="leg '+(l[1]==="Failed"?"bad":(["Pending","Authorized"].includes(l[1])?"wait":""))+'">'+l[0].slice(0,1)+'</span>').join("")+'</div><small>'+o.legs.length+' tender legs</small></td><td><strong>'+money(o.gross,o.currency)+'</strong></td><td><span class="badge '+(o.status==="Partial failure"||o.status==="Failed"?"partial":(["Pending","Processing"].includes(o.status)?"pending":""))+'">'+o.status+'</span></td></tr>').join("")||'<tr><td colspan="6" style="text-align:center;padding:28px">No sample transactions match those filters.</td></tr>';
+ document.getElementById("resultCount").textContent=filtered.length+" sample orders";
+ document.querySelectorAll("#rows tr[data-id]").forEach(row=>row.addEventListener("click",()=>openDetail(sample.find(o=>o.id===row.dataset.id))));
+}
+function openDetail(o){
+ document.getElementById("drawerId").textContent=o.id;
+ document.getElementById("drawerGross").textContent=money(o.gross,o.currency);
+ document.getElementById("drawerCustomer").textContent=o.customer+" · "+o.country+" · "+o.date;
+ const fees=o.legs.filter(l=>["Settled","Captured"].includes(l[1])).reduce((s,l)=>s+l[2]*(l[0].includes("Visa")?.022:l[0].includes("Mastercard")?.02:l[0].includes("Bank")?.008:l[0].includes("M-Pesa")?.013:.012),0);
+ const settled=o.legs.filter(l=>l[1]==="Settled").reduce((s,l)=>s+l[2],0);
+ document.getElementById("drawerLegs").innerHTML=o.legs.map(l=>'<div class="legrow"><div><strong>'+l[0]+'</strong><br><span>'+l[1]+'</span></div><strong>'+money(l[2],o.currency)+'</strong></div>').join("");
+ document.getElementById("drawerSummary").innerHTML=[["Collected (captured + settled)",o.legs.filter(l=>["Settled","Captured"].includes(l[1])).reduce((s,l)=>s+l[2],0)],["Pending / authorized",o.legs.filter(l=>["Pending","Authorized"].includes(l[1])).reduce((s,l)=>s+l[2],0)],["Failed",o.legs.filter(l=>l[1]==="Failed").reduce((s,l)=>s+l[2],0)],["Settled gross",settled],["Estimated fees",fees],["Net settlement",settled-fees]].map(x=>'<div class="legrow"><span>'+x[0]+'</span><strong>'+money(x[1],o.currency)+'</strong></div>').join("");
+ document.getElementById("overlay").classList.add("show");
+}
+document.querySelectorAll(".filters input,.filters select").forEach(el=>el.addEventListener("input",render));
+document.getElementById("close").onclick=()=>document.getElementById("overlay").classList.remove("show");
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay")e.currentTarget.classList.remove("show")});
+document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+ const view=btn.dataset.view,alt=document.getElementById("alternate"),content=document.getElementById("overviewContent");
+ document.getElementById("pageTitle").textContent=({overview:"Overview",transactions:"Transactions",exceptions:"Exceptions",analytics:"Analytics",settlements:"Settlement reports"})[view];
+ if(view==="overview"||view==="transactions"||view==="exceptions"){content.style.display="grid";alt.style.display="none";if(view==="exceptions")document.getElementById("status").value="Partial failure";else if(view==="transactions")document.getElementById("status").value="";render()}
+ else{content.style.display="none";alt.style.display="block";document.getElementById("altTitle").textContent=view==="analytics"?"Payment analytics":"Settlement reports";document.getElementById("altDesc").textContent=view==="analytics"?"Gross-to-net trend and payment method performance":"Processor and method settlement breakdown";document.getElementById("altBody").innerHTML=view==="analytics"?'<div class="bar-row"><div class="bar-title"><span>Gross sales</span><b>₦ 8,420,500</b></div><div class="bar"><i style="width:95%"></i></div></div><div class="bar-row"><div class="bar-title"><span>Net settlement</span><b>₦ 6,914,280</b></div><div class="bar"><i style="width:78%"></i></div></div><div class="bar-row"><div class="bar-title"><span>Split orders</span><b>65%</b></div><div class="bar"><i style="width:65%"></i></div></div><div class="bar-row"><div class="bar-title"><span>Partial failure orders</span><b>41 of 130 split orders</b></div><div class="bar"><i style="width:32%;background:#d98b78"></i></div></div><div class="note">The production app provides date-filtered trend charts and failed-leg rates by payment method. Figures here are illustrative placeholders.</div>':'<div class="metric"><span>Processor / method</span><strong>Settled gross · Fees · Net</strong></div>'+[['Card processor · Visa','₦ 2,850,000','₦ 62,700','₦ 2,787,300'],['Mobile money · MTN','₦ 1,420,000','₦ 17,040','₦ 1,402,960'],['Wallet · M-Pesa','KSh 980,000','KSh 12,740','KSh 967,260'],['Bank transfer','₦ 1,200,000','₦ 9,600','₦ 1,190,400']].map(x=>'<div class="metric"><span>'+x[0]+'</span><strong>'+x[1]+' · '+x[2]+' · '+x[3]+'</strong></div>').join("")+'<div class="note">Production reports group by processor, method and currency to avoid combining unlike currencies. CSV export is available in the running application.</div>'}
+});
+document.getElementById("export").onclick=()=>alert("In the running CaféHub app, Export report downloads the current filtered reconciliation report as CSV. This visual preview does not connect to live report data.");
+render();
+</script>
+</body></html>
