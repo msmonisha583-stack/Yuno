@@ -4,7 +4,7 @@ const amountOf = (value: number) => Number.isFinite(value) ? Math.max(0, value) 
 const isCollected = (status: PaymentLeg['status']) =>
   status === 'captured' || status === 'settled' || status === 'refunded';
 const isSettled = (status: PaymentLeg['status']) => status === 'settled' || status === 'refunded';
-const sum = (values: number[]) => values.reduce((total, value) => total + value, 0);
+const sum = (values: number[]) => values.reduce((total, value) => total + value, 0);\nconst rateOf = (value: number) => Number.isFinite(value) ? Math.min(1, Math.max(0, value)) : 0;
 
 export function validateOrder(order: Transaction): string[] {
   const errors: string[] = [];
@@ -45,7 +45,7 @@ export function calculateOrder(order: Transaction): OrderCalculation {
   const capturedAmount = sum(legs.filter((leg) => leg.status === 'captured').map((leg) => amountOf(leg.amount)));
   const settledLegs = legs.filter(isSettled);
   const settledGross = sum(settledLegs.map((leg) => amountOf(leg.amount)));
-  const estimatedFees = sum(legs.filter(isCollected).map((leg) => amountOf(leg.amount) * Math.max(0, leg.feeRate)));
+  const estimatedFees = sum(legs.filter(isCollected).map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
   const settledFees = sum(settledLegs.map((leg) => amountOf(leg.amount) * Math.max(0, leg.feeRate)));
   const refunds = sum(legs.map((leg) => Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount))));
   const settledRefunds = sum(settledLegs.map((leg) => Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount))));
