@@ -46,7 +46,7 @@ export function calculateOrder(order: Transaction): OrderCalculation {
   const settledLegs = legs.filter(isSettled);
   const settledGross = sum(settledLegs.map((leg) => amountOf(leg.amount)));
   const estimatedFees = sum(legs.filter(isCollected).map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
-  const settledFees = sum(settledLegs.map((leg) => amountOf(leg.amount) * Math.max(0, leg.feeRate)));
+  const settledFees = sum(settledLegs.map((leg) => amountOf(leg.amount) * rateOf(leg.feeRate)));
   const refunds = sum(legs.map((leg) => Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount))));
   const settledRefunds = sum(settledLegs.map((leg) => Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount))));
   const retainedCollected = Math.max(0, collectedAmount - refunds);
@@ -90,7 +90,7 @@ export function calculateProcessorMetrics(orders: Transaction[]) {
     if (leg.status === 'failed') current.failedLegs += 1;
     if (isSettled(leg.status)) {
       current.settledGross += amountOf(leg.amount);
-      current.settledFees += amountOf(leg.amount) * Math.max(0, leg.feeRate);
+      current.settledFees += amountOf(leg.amount) * rateOf(leg.feeRate);
       current.refunds += Math.min(amountOf(leg.refundedAmount), amountOf(leg.amount));
     }
     groups.set(key, current);
